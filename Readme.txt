@@ -36,7 +36,8 @@ Generation 2:
 
 
 Test cases:
-1. Cell should be died in case of 1 neighbour
+1. Cell should be died in case of 1 live neighbour
+2. Game should take grid size and live cell(s) as an input
 2. Cell should be alive in case of 2 neighbours
 3. Any dead cell with 3 live neighbours got its life
 4. Any live cell with less than 2 live cells will be dead
