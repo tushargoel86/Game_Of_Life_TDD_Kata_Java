@@ -15,4 +15,14 @@ public class GameOfLifeTest {
 
         assertArrayEquals(new int[] {4, 8}, size);
     }
+
+    @Test
+    @DisplayName("All cell should be died in case of single alive node")
+    void testForSingleAliveCell() {
+        GameOfLife gameOfLife = new GameOfLife(4, 8);
+        gameOfLife.activeCell(2,2);
+        Grid grid = gameOfLife.next();
+
+        assertArrayEquals(new boolean[4][8], grid.cells());
+    }
 }

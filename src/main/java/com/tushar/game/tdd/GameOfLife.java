@@ -2,13 +2,22 @@ package com.tushar.game.tdd;
 
 public class GameOfLife {
 
-    boolean[][] cells;
+    Grid grid;
 
     public GameOfLife(int row, int col) {
-        cells = new boolean[row][col];
+        this.grid = new Grid(row, col);
     }
 
     public int[] size() {
-        return new int[]{cells.length, cells[0].length};
+        return grid.size();
+    }
+
+    public Grid next() {
+        grid.makeCellDead(2, 2);
+        return grid;
+    }
+
+    public void activeCell(int row, int cell) {
+        grid.makeCellActive(row, cell);
     }
 }
