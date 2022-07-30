@@ -43,3 +43,10 @@ Test cases:
 5. Any dead cell with 3 live neighbours got its life
 6. Initial input should decide whether cell needs to be died or alive
 7. Cell present in the boundaries should be died
+
+LifeDecision Rules:
+
+1. Each cell has 8 neighbours in all direction
+2. In case of less than 2 alive neighbours cells for any cell that cell will be died
+3. In case of more than 3 alive neighbours cells for any cell that cell will be died
+4. Any dead cell with 3 live neighbours got its life

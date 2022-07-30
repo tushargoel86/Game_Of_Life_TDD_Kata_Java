@@ -1,5 +1,6 @@
 package com.tushar.game.tdd;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,18 @@ public class GameOfLifeTest {
     void testForSingleAliveCell() {
         GameOfLife gameOfLife = new GameOfLife(4, 8);
         gameOfLife.activeCell(2,2);
+        Grid grid = gameOfLife.next();
+
+        assertArrayEquals(new boolean[4][8], grid.cells());
+    }
+
+    @Disabled
+    @Test
+    @DisplayName("Cell should be died in case of less than 2 alive neighbours node")
+    void testForTwoAliveNeighbourCell() {
+        GameOfLife gameOfLife = new GameOfLife(4, 8);
+        gameOfLife.activeCell(2,2);
+        gameOfLife.activeCell(2,3);
         Grid grid = gameOfLife.next();
 
         assertArrayEquals(new boolean[4][8], grid.cells());
