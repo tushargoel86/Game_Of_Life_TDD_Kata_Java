@@ -1,17 +1,14 @@
 package com.tushar.game.tdd;
 
 public class GameOfLife {
-    private final Grid grid;
+
+    boolean[][] cells;
 
     public GameOfLife(int row, int col) {
-        grid = new Grid(row, col);
+        cells = new boolean[row][col];
     }
 
-    public void addLife(Cell cell) {
-
-    }
-
-    public Grid nextGeneration() {
-        return grid;
+    public int[] size() {
+        return new int[]{cells.length, cells[0].length};
     }
 }
