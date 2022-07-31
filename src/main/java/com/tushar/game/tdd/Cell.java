@@ -7,7 +7,7 @@ import java.util.Objects;
 public abstract class Cell {
     private final int row;
     private final int col;
-    private List<Neighbour> neighbours;
+    private List<Cell> neighbours;
     private final boolean isAlive;
 
     public Cell(int row, int col, boolean isAlive) {
@@ -25,11 +25,11 @@ public abstract class Cell {
         return col;
     }
 
-    public List<Neighbour> getNeighbours() {
+    public List<Cell> getNeighbours() {
         return neighbours;
     }
 
-    public void setNeighbours(List<Neighbour> neighbours) {
+    public void setNeighbours(List<Cell> neighbours) {
         this.neighbours = neighbours;
     }
 
