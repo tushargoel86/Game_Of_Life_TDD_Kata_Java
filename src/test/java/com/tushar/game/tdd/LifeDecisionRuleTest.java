@@ -5,11 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LifeDecisionRuleTest {
 
@@ -20,30 +17,30 @@ public class LifeDecisionRuleTest {
         this.rules = new LifeDecisionRule();
     }
 
-    @Test
-    @DisplayName("Should get all neighbours for a given cell")
-    void shouldGetAllNeighbourForAGivenCell() {
-        Grid grid = new Grid(4, 8);
-        List<Neighbour> result = makeNeighbours(
-                new int[][]{{0, 1}, {0, 0}, {1, 0}, {2, 0}, {2, 1}, {2, 2},
-                            {1, 2}, {0, 2}});
+//    @Test
+//    @DisplayName("Should get all neighbours for a given cell")
+//    void shouldGetAllNeighbourForAGivenCell() {
+//        Grid grid = new Grid(4, 8);
+//        List<Neighbour> result = makeNeighbours(
+//                new int[][]{{0, 1}, {0, 0}, {1, 0}, {2, 0}, {2, 1}, {2, 2},
+//                            {1, 2}, {0, 2}});
+//
+//        List<Neighbour> neighbours = rules.neighbours(grid, 1, 1);
+//
+//        assertEquals(result,  neighbours);
+//    }
 
-        List<Neighbour> neighbours = rules.neighbours(grid, 1, 1);
-
-        assertEquals(result,  neighbours);
-    }
-
-    @Test
-    @DisplayName("Should get all neighbours for a given cell present on the edges")
-    void shouldGetAllNeighbourForAGivenCellPresentAtEdges() {
-        Grid grid = new Grid(4, 8);
-        List<Neighbour> result = makeNeighbours
-                (new int[][]{{0, 0}, {1, 0}, {1, 1}, {1, 2}, {0, 2}});
-
-        List<Neighbour> neighbours = rules.neighbours(grid, 0, 1);
-
-        assertEquals(result,  neighbours);
-    }
+//    @Test
+//    @DisplayName("Should get all neighbours for a given cell present on the edges")
+//    void shouldGetAllNeighbourForAGivenCellPresentAtEdges() {
+//        Grid grid = new Grid(4, 8);
+//        List<Neighbour> result = makeNeighbours
+//                (new int[][]{{0, 0}, {1, 0}, {1, 1}, {1, 2}, {0, 2}});
+//
+//        List<Neighbour> neighbours = rules.neighbours(grid, 0, 1);
+//
+//        assertEquals(result,  neighbours);
+//    }
 
     @Test
     @DisplayName("Should cell dies in case of under population")
@@ -59,8 +56,8 @@ public class LifeDecisionRuleTest {
     }
 
     @Test
-    @DisplayName("Should cell dies in case of under population - 2")
-    void testForUnderPopulation2() {
+    @DisplayName("Should cell dies in case of under population when cell present at edge")
+    void testForUnderPopulationAtEdge() {
         Grid grid = makeGridAndActiveCells(4, 8,
                 new int[][]{{2, 2}, {1, 3}, {1, 2}, {0, 1}});
 
@@ -71,18 +68,25 @@ public class LifeDecisionRuleTest {
         assertArrayEquals(result, grid.cells());
     }
 
+    @Test
+    @DisplayName("Should cell dies in case of over population")
+    void testForOverPopulation() {
+        Grid grid = makeGridAndActiveCells(4, 8,
+                new int[][]{{2, 2}, {1, 3}, {1, 2}, {1, 1}, {2, 3}});
 
-    private List<Neighbour> makeNeighbours(int[][] cells) {
-        return Arrays.stream(cells)
-                .map(cell -> new Neighbour(cell[0], cell[1]))
-                .collect(Collectors.toList());
+        Cell[][] result = getCopyOfGrid(grid, new int[][]{{1, 1}, {1, 3}, {2, 3}});
+
+        rules.next(grid);
+
+        assertArrayEquals(result, grid.cells());
     }
 
     private Cell[][] getCopyOfGrid(Grid grid, int[][] activeCells) {
-        Cell [][]cells = grid.cells();
+        int []size = grid.size();
+        Grid tmpGrid = new Grid(size[0], size[1]);
         Arrays.stream(activeCells)
-                .forEach(cell -> cells[cell[0]][cell[1]] = new AliveCell(cell[0], cell[1]));
-        return cells;
+                .forEach(cell -> tmpGrid.makeCellActive(cell[0], cell[1]));
+        return tmpGrid.cells();
     }
 
     private Grid makeGridAndActiveCells(int row, int col, int[][] activeCells) {
@@ -98,6 +102,6 @@ public class LifeDecisionRuleTest {
  *  cells = {{-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}}
  *
  *  (0, 0)    (0, 1)    (0, 2)
- *  (1, 0)    (1, 1)    (1, 2)
+ *  (1, 0)    (1, 1)    (1, 2) (1, 3)
  *  (2, 0)    (2, 1)    (2, 2) (2, 3)
  */

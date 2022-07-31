@@ -1,6 +1,7 @@
 package com.tushar.game.tdd;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Grid {
@@ -8,24 +9,36 @@ public class Grid {
 
     public Grid(int row, int col) {
         cells = new Cell[row][col];
+        createCell(row, col);
+        createNeighbours(row, col);
+    }
+
+    private void createNeighbours(int row, int col) {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                cells[i][j] = new DeadCell(i, j);
                 cells[i][j].setNeighbours(neighbours(i, j));
             }
         }
     }
 
-    private List<Neighbour> neighbours(int row, int col) {
+    private void createCell(int row, int col) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                cells[i][j] = new Cell(i, j, CellStatus.DEAD);
+            }
+        }
+    }
+
+    private List<Cell> neighbours(int row, int col) {
         int [][]directions = directions();
-        List<Neighbour> neighbours = new ArrayList<>();
+        List<Cell> neighbours = new ArrayList<>();
         for (int[] direction : directions) {
             int p = direction[0] + row;
             int q = direction[1] + col;
             if (p < 0 || p >= cells.length || q < 0 || q >= cells[0].length) {
                 continue;
             }
-            neighbours.add(new Neighbour(p, q));
+            neighbours.add(cells[p][q]);
         }
         return neighbours;
     }
@@ -43,10 +56,23 @@ public class Grid {
     }
 
     public void makeCellActive(int row, int col) {
-        cells[row][col] = new AliveCell(row, col);
+        Cell cell = cells[row][col];
+        cell.makeItAlive();
     }
 
     public void makeCellDead(int row, int col) {
-        cells[row][col] = new DeadCell(row, col);
+        Cell cell = cells[row][col];
+        cell.makeItDead();
+    }
+
+    public Cell fetchCell(int i, int j) {
+        return cells[i][j];
+    }
+
+    @Override
+    public String toString() {
+        return "Grid{" +
+                "cells=" + Arrays.toString(cells) +
+                '}';
     }
 }
