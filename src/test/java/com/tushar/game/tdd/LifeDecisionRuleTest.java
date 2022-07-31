@@ -1,25 +1,34 @@
 package com.tushar.game.tdd;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LifeDecisionRuleTest {
 
+    private LifeDecisionRule rules;
+
+    @BeforeEach
+    public void setup() {
+        this.rules = new LifeDecisionRule();
+    }
+
     @Test
     @DisplayName("Should get all neighbours for a given cell")
     void shouldGetAllNeighbourForAGivenCell() {
-        LifeDecisionRule rules = new LifeDecisionRule();
         Grid grid = new Grid(4, 8);
+        List<Neighbour> result = makeNeighbours(
+                new int[][]{{0, 1}, {0, 0}, {1, 0}, {2, 0}, {2, 1}, {2, 2},
+                            {1, 2}, {0, 2}});
+
         List<Neighbour> neighbours = rules.neighbours(grid, 1, 1);
-        List<Neighbour> result = List.of(new Neighbour(0, 1), new Neighbour(0, 0),
-                new Neighbour(1, 0), new Neighbour(2, 0),
-                new Neighbour(2, 1), new Neighbour(2, 2), new Neighbour(1, 2),
-                new Neighbour(0, 2));
 
         assertEquals(result,  neighbours);
     }
@@ -27,12 +36,11 @@ public class LifeDecisionRuleTest {
     @Test
     @DisplayName("Should get all neighbours for a given cell present on the edges")
     void shouldGetAllNeighbourForAGivenCellPresentAtEdges() {
-        LifeDecisionRule rules = new LifeDecisionRule();
         Grid grid = new Grid(4, 8);
+        List<Neighbour> result = makeNeighbours
+                (new int[][]{{0, 0}, {1, 0}, {1, 1}, {1, 2}, {0, 2}});
+
         List<Neighbour> neighbours = rules.neighbours(grid, 0, 1);
-        List<Neighbour> result = List.of(new Neighbour(0, 0),
-                new Neighbour(1, 0), new Neighbour(1, 1), new Neighbour(1, 2),
-                new Neighbour(0, 2));
 
         assertEquals(result,  neighbours);
     }
@@ -40,14 +48,12 @@ public class LifeDecisionRuleTest {
     @Test
     @DisplayName("Should cell dies in case of under population")
     void testForUnderPopulation() {
-        LifeDecisionRule rules = new LifeDecisionRule();
-        Grid grid = new Grid(4, 8);
-        grid.makeCellActive(2, 2);
-        grid.makeCellActive(2, 3);
+        Grid grid = makeGridAndActiveCells(4, 8,
+                new int[][]{{2, 2}, {2, 3}});
 
         rules.next(grid);
-        int []gridSize = grid.size();
-        boolean [][]result = new boolean[gridSize[0]][gridSize[1]];
+
+        Cell[][] result = getCopyOfGrid(grid, new int[][]{});
 
         assertArrayEquals(result, grid.cells());
     }
@@ -55,21 +61,36 @@ public class LifeDecisionRuleTest {
     @Test
     @DisplayName("Should cell dies in case of under population - 2")
     void testForUnderPopulation2() {
-        LifeDecisionRule rules = new LifeDecisionRule();
-        Grid grid = new Grid(4, 8);
-        grid.makeCellActive(2, 2);
-        grid.makeCellActive(2, 3);
-        grid.makeCellActive(1, 2);
-        grid.makeCellActive(0, 1);
+        Grid grid = makeGridAndActiveCells(4, 8,
+                new int[][]{{2, 2}, {1, 3}, {1, 2}, {0, 1}});
+
+        Cell[][] result = getCopyOfGrid(grid, new int[][]{{2, 2}, {1, 3}, {1, 2}});
 
         rules.next(grid);
-        int []gridSize = grid.size();
-        boolean [][]result = new boolean[gridSize[0]][gridSize[1]];
-        result[2][2] = true;
-        result[2][3] = true;
-        result[1][2] = true;
 
         assertArrayEquals(result, grid.cells());
+    }
+
+
+    private List<Neighbour> makeNeighbours(int[][] cells) {
+        return Arrays.stream(cells)
+                .map(cell -> new Neighbour(cell[0], cell[1]))
+                .collect(Collectors.toList());
+    }
+
+    private Cell[][] getCopyOfGrid(Grid grid, int[][] activeCells) {
+        Cell [][]cells = grid.cells();
+        Arrays.stream(activeCells)
+                .forEach(cell -> cells[cell[0]][cell[1]] = new AliveCell(cell[0], cell[1]));
+        return cells;
+    }
+
+    private Grid makeGridAndActiveCells(int row, int col, int[][] activeCells) {
+        Grid grid = new Grid(row, col);
+        for (int[] activeCell : activeCells) {
+            grid.makeCellActive(activeCell[0], activeCell[1]);
+        }
+        return grid;
     }
 }
 

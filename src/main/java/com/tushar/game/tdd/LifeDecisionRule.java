@@ -27,13 +27,14 @@ public class LifeDecisionRule {
 
     public void next(Grid grid) {
         int []size = grid.size();
-        boolean[][] cells = grid.cells();
+        Cell[][] cells = grid.cells();
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
                 List<Neighbour> neighbors = neighbours(grid, i, j);
                 int count = 0;
                 for (Neighbour neighbor : neighbors) {
-                    if (cells[neighbor.getRow()][neighbor.getCol()]) count++;
+                    Cell cell = cells[neighbor.getRow()][neighbor.getCol()];
+                    if (cell.isAlive()) count++;
                 }
                 if (count < 2) grid.makeCellDead(i, j);
             }
