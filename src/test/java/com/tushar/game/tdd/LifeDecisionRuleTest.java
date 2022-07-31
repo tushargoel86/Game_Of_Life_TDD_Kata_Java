@@ -17,10 +17,25 @@ public class LifeDecisionRuleTest {
 
         assertArrayEquals(result,  neighbours);
     }
+
+    @Test
+    @DisplayName("Should cell dies in case of under population")
+    void testForUnderPopulation() {
+        LifeDecisionRule rules = new LifeDecisionRule();
+        Grid grid = new Grid(4, 8);
+        grid.makeCellActive(2, 2);
+        grid.makeCellActive(2, 3);
+
+        rules.next(grid);
+        int []gridSize = grid.size();
+        boolean [][]result = new boolean[gridSize[0]][gridSize[1]];
+
+        assertArrayEquals(result, grid.cells());
+    }
 }
 
 /**
- *      cells = {{-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}}
+ *  cells = {{-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}}
  *
  *  (0, 0)    (0, 1)    (0, 2)
  *  (1, 0)    (1, 1)    (1, 2)
