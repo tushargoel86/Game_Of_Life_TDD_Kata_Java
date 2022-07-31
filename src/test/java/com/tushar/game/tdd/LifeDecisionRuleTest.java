@@ -1,6 +1,5 @@
 package com.tushar.game.tdd;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +53,6 @@ public class LifeDecisionRuleTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("Should cell dies in case of under population - 2")
     void testForUnderPopulation2() {
         LifeDecisionRule rules = new LifeDecisionRule();
@@ -80,5 +78,5 @@ public class LifeDecisionRuleTest {
  *
  *  (0, 0)    (0, 1)    (0, 2)
  *  (1, 0)    (1, 1)    (1, 2)
- *  (2, 0)    (2, 1)    (2, 2)
+ *  (2, 0)    (2, 1)    (2, 2) (2, 3)
  */
