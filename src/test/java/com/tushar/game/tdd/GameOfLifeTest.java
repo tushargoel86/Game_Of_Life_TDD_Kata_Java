@@ -17,16 +17,18 @@ public class GameOfLifeTest {
         assertArrayEquals(new int[] {4, 8}, size);
     }
 
-//    @Test
-//    @DisplayName("All cell should be died in case of single alive node")
-//    void testForSingleAliveCell() {
-//        GameOfLife gameOfLife = new GameOfLife(4, 8);
-//        gameOfLife.activeCell(2,2);
-//
-//        Grid grid = gameOfLife.next();
-//
-//        assertArrayEquals(gameOfLife, grid.cells());
-//    }
+    @Test
+    @DisplayName("All cell should be died in case of single alive node")
+    void testForSingleAliveCell() {
+        GameOfLife gameOfLife = new GameOfLife(4, 8);
+        gameOfLife.activeCell(2,2);
+
+        Grid grid = gameOfLife.next();
+
+        Grid newGrid = new Grid(4, 8);
+
+        assertArrayEquals(newGrid.cells(), grid.cells());
+    }
 //
 //    @Disabled
 //    @Test

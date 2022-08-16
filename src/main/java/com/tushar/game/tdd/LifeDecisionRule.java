@@ -14,10 +14,4 @@ public class LifeDecisionRule {
             }
         }
     }
-
-    private long getAliveCount(List<Cell> neighbors) {
-       return neighbors.stream()
-                .filter(Cell::isAlive)
-                .count();
-    }
 }

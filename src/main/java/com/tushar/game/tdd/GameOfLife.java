@@ -2,11 +2,12 @@ package com.tushar.game.tdd;
 
 public class GameOfLife {
 
-    Grid grid;
-    LifeDecisionRule lifeDecisionRule;
+    private final Grid grid;
+    private final LifeDecisionRule lifeDecisionRule;
 
     public GameOfLife(int row, int col) {
         this.grid = new Grid(row, col);
+        this.lifeDecisionRule = new LifeDecisionRule();
     }
 
     public int[] size() {

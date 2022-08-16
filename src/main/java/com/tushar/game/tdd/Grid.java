@@ -60,19 +60,7 @@ public class Grid {
         cell.makeItAlive();
     }
 
-    public void makeCellDead(int row, int col) {
-        Cell cell = cells[row][col];
-        cell.makeItDead();
-    }
-
     public Cell fetchCell(int i, int j) {
         return cells[i][j];
-    }
-
-    @Override
-    public String toString() {
-        return "Grid{" +
-                "cells=" + Arrays.toString(cells) +
-                '}';
     }
 }

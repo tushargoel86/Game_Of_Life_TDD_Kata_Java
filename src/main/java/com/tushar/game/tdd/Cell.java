@@ -42,15 +42,6 @@ public class Cell {
         return Objects.hash(row, col, cellStatus);
     }
 
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "row=" + row +
-                ", col=" + col +
-                ", isAlive=" + cellStatus +
-                '}';
-    }
-
     public void makeItDead() {
         cellStatus = CellStatus.DEAD;
     }
