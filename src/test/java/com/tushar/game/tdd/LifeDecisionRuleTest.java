@@ -74,7 +74,33 @@ public class LifeDecisionRuleTest {
         Grid grid = makeGridAndActiveCells(4, 8,
                 new int[][]{{2, 2}, {1, 3}, {1, 2}, {1, 1}, {2, 3}});
 
-        Cell[][] result = getCopyOfGrid(grid, new int[][]{{1, 1}, {1, 3}, {2, 3}});
+        Cell[][] result = getCopyOfGrid(grid, new int[][]{{1, 1}, {1, 3}, {2, 2}, {2, 3}});
+
+        rules.next(grid);
+
+        assertArrayEquals(result, grid.cells());
+    }
+
+    @Test
+    @DisplayName("Should cell be alive when 2 neighbours are alive")
+    void testForCellAliveWhenTwoNodesAlive() {
+        Grid grid = makeGridAndActiveCells(4, 8,
+                new int[][]{{2, 2}, {1, 3}, {1, 2}});
+
+        Cell[][] result = getCopyOfGrid(grid, new int[][]{{2, 2}, {1, 3}, {1, 2}});
+
+        rules.next(grid);
+
+        assertArrayEquals(result, grid.cells());
+    }
+
+    @Test
+    @DisplayName("Should cell be alive when 3 neighbours are alive")
+    void testForCellAliveWhenThreeNodesAlive() {
+        Grid grid = makeGridAndActiveCells(4, 8,
+                new int[][]{{2, 2}, {1, 3}, {1, 2}, {1, 1}});
+
+        Cell[][] result = getCopyOfGrid(grid, new int[][]{{2, 2}, {1, 3}, {1, 2}, {1, 1}});
 
         rules.next(grid);
 
@@ -99,9 +125,12 @@ public class LifeDecisionRuleTest {
 }
 
 /**
- *  cells = {{-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}}
+ *  cells = {{2, 2}, {1, 3}, {1, 2}, {1, 1}, {2, 3}}
+ *
+ *  {1, 1}, {1, 3}, {2, 3}
  *
  *  (0, 0)    (0, 1)    (0, 2)
- *  (1, 0)    (1, 1)    (1, 2) (1, 3)
- *  (2, 0)    (2, 1)    (2, 2) (2, 3)
+ *  (1, 0)    L(1, 1)   D (1, 2)  L(1, 3)
+ *  (2, 0)    (2, 1)   L (2, 2)   L(2, 3)
+ *
  */

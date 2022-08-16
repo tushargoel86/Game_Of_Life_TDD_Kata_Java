@@ -3,6 +3,7 @@ package com.tushar.game.tdd;
 public class GameOfLife {
 
     Grid grid;
+    LifeDecisionRule lifeDecisionRule;
 
     public GameOfLife(int row, int col) {
         this.grid = new Grid(row, col);
@@ -13,11 +14,12 @@ public class GameOfLife {
     }
 
     public Grid next() {
-        grid.makeCellDead(2, 2);
-        return grid;
+       lifeDecisionRule.next(grid);
+       return grid;
     }
 
     public void activeCell(int row, int cell) {
         grid.makeCellActive(row, cell);
     }
+
 }

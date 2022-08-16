@@ -46,7 +46,7 @@ Test cases:
 
 LifeDecision Rules:
 
-1. Each cell has 8 neighbours in all direction
+1. Each cell has 8 neighbours in all direction  (not required)
 2. In case of less than 2 alive neighbours cells for any cell that cell will be died
 3. In case of more than 3 alive neighbours cells for any cell that cell will be died
 4. Any dead cell with 3 live neighbours got its life
